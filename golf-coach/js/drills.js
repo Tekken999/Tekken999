@@ -1,0 +1,205 @@
+// Easy, driving-range friendly drills. Each fault found by analysis.js maps to
+// one drill. Keep every drill to: one feel cue, three steps, one bucket plan.
+
+export const DRILLS = {
+  setup_posture: {
+    title: 'Club-on-the-Spine Setup',
+    fault: 'Posture at address is too upright or too bent over',
+    why: 'Good posture gives your arms room to swing and lets your body turn. Almost every swing problem starts at setup.',
+    cue: 'Hinge from the hips, let your arms hang.',
+    equipment: 'Any club',
+    steps: [
+      'Stand tall and hold a club vertically along your back so it touches your head, shoulder blades and tailbone.',
+      'Push your hips back and tilt forward, keeping all three points touching, until your chest points at the ball.',
+      'Soften your knees, let your arms hang straight down from your shoulders, and grip the club right there.',
+    ],
+    plan: 'Before every ball in this bucket: 1 posture rehearsal with the club on your spine, then set up and hit.',
+  },
+  knee_flex: {
+    title: 'Tall Stool Stance',
+    fault: 'Knees are locked straight or squatting too low',
+    why: 'Soft knees keep you balanced and let your hips turn. Locked or deep-squat knees make you lose balance mid-swing.',
+    cue: 'Sit on a tall bar stool.',
+    equipment: 'None',
+    steps: [
+      'Take your stance with legs straight, then unlock your knees just enough to feel "ready to jump".',
+      'Your knees should be over the balls of your feet, not past your toes.',
+      'Bounce gently twice on the balls of your feet, then settle. That is your flex.',
+    ],
+    plan: '20 balls: do the two-bounce routine before each shot until it feels automatic.',
+  },
+  hip_sway: {
+    title: 'Stick Outside the Trail Hip',
+    fault: 'Hips slide away from the target in the backswing',
+    why: 'Sliding moves the bottom of your swing, which causes fat and thin shots. You want to turn, not slide.',
+    cue: 'Turn in a barrel.',
+    equipment: 'Alignment stick, umbrella, or spare club',
+    steps: [
+      'Push an alignment stick into the ground just outside your trail hip (or lean your bag there).',
+      'Make slow backswings. Your trail hip should turn behind you without bumping the stick.',
+      'Feel pressure build in your trail heel and inner thigh rather than the outside of your foot.',
+    ],
+    plan: '5 slow rehearsals, then 15 balls at half speed, then 10 at full speed without touching the stick.',
+  },
+  head_sway: {
+    title: 'Steady Head Drill',
+    fault: 'Head moves away from the target in the backswing',
+    why: 'When your head drifts, your low point moves with it. A quieter head means more solid contact.',
+    cue: 'Turn around your spine like a door on a hinge.',
+    equipment: 'A tee or coin',
+    steps: [
+      'Put a tee in the ground just behind the ball. Pick one dimple on the back of the ball to look at.',
+      'Make half swings (hip-high to hip-high) keeping your eyes on that dimple until the ball is gone.',
+      'Let your shoulders turn under your chin. Your head can rotate but should not slide.',
+    ],
+    plan: '10 half swings, 10 three-quarter swings, then 10 full swings still watching the dimple.',
+  },
+  reverse_pivot: {
+    title: 'Trail Heel Load',
+    fault: 'Weight moves toward the target in the backswing (reverse pivot)',
+    why: 'Leaning toward the target at the top forces you to fall backwards in the downswing, causing weak slices and tops.',
+    cue: 'At the top, feel your weight in your trail heel.',
+    equipment: 'None',
+    steps: [
+      'Take your setup and lift your lead heel a tiny bit off the ground as you swing back.',
+      'Pause at the top and check: your trail leg should feel loaded, your head over your trail knee.',
+      'Plant the lead heel to start the downswing and swing through.',
+    ],
+    plan: '10 swings with the heel lift and a pause at the top, then 15 normal swings keeping that loaded feeling.',
+  },
+  lead_arm: {
+    title: 'Wide Takeaway Push',
+    fault: 'Lead arm bends a lot at the top of the backswing',
+    why: 'A collapsing lead arm shortens your swing arc, costing distance and consistency.',
+    cue: 'Wide, not high.',
+    equipment: 'None',
+    steps: [
+      'At takeaway, push the club straight back low along the ground for the first two feet.',
+      'Keep your lead arm long and let your shoulders do the turning. Stop where the arm starts to bend.',
+      'A shorter backswing with a straight arm beats a long one with a bent arm.',
+    ],
+    plan: '10 balls with a three-quarter swing and straight lead arm, then 15 balls letting it grow naturally.',
+  },
+  early_extension: {
+    title: 'Butt to the Bag',
+    fault: 'Hips push toward the ball in the downswing (early extension)',
+    why: 'When your hips move toward the ball your arms have no room, causing blocks, hooks and shanks.',
+    cue: 'Keep your back pockets back.',
+    equipment: 'Your golf bag or a chair',
+    steps: [
+      'At address, stand your bag just behind you so your backside lightly touches it.',
+      'Swing back and through. Your trail butt cheek should stay touching the bag through impact.',
+      'After impact your lead butt cheek touches the bag as you turn to face the target.',
+    ],
+    plan: '5 slow rehearsals, then 20 balls at 70% speed keeping contact with the bag.',
+  },
+  lost_posture: {
+    title: 'Chest Over the Ball',
+    fault: 'Standing up out of your posture before impact',
+    why: 'Standing up lifts the club off the ground — the most common cause of thin and topped shots.',
+    cue: 'Keep your chest looking at the ball until after it is gone.',
+    equipment: 'None',
+    steps: [
+      'Make slow 9-to-3 swings (arms parallel to the ground on each side).',
+      'At impact your chest should still point at the ball and your trail knee still be bent.',
+      'Only after the ball is gone let your chest rise to face the target.',
+    ],
+    plan: '15 balls with 9-to-3 swings, then 15 full swings with the same feeling.',
+  },
+  head_lift: {
+    title: 'Chest Over the Ball',
+    fault: 'Head and chest lift up before impact',
+    why: 'Lifting pulls the club up with you, causing thin and topped shots.',
+    cue: 'Stay in your posture until the ball is gone.',
+    equipment: 'None',
+    steps: [
+      'Make slow 9-to-3 swings (arms parallel to the ground on each side).',
+      'Keep your head at the same height through impact. Watch the spot where the ball was for a moment after contact.',
+      'Let your head come up naturally only as you rotate into your finish.',
+    ],
+    plan: '15 balls with 9-to-3 swings, then 15 full swings still watching the spot.',
+  },
+  head_dip: {
+    title: 'Stay Tall Through Impact',
+    fault: 'Head and chest drop down into impact',
+    why: 'Dipping lowers the club, causing fat shots (hitting the ground first).',
+    cue: 'Swing at the same height you started.',
+    equipment: 'None',
+    steps: [
+      'Tee the ball a bit higher than normal.',
+      'Make smooth 3/4 swings trying to clip the tee without hitting the ground.',
+      'Feel your legs push up slightly into the ground as you swing through.',
+    ],
+    plan: '20 balls off a tee trying to brush the tee only, then 10 off the mat.',
+  },
+  weight_shift: {
+    title: 'Step-Through Finish',
+    fault: 'Weight stays on the back foot at the finish',
+    why: 'Hanging back robs power and causes thin and high weak shots. Your weight should end up on your lead foot.',
+    cue: 'Belt buckle to the target.',
+    equipment: 'None',
+    steps: [
+      'Hit a ball at 70% speed.',
+      'Right after impact, let your trail foot step forward toward the target, like walking after the ball.',
+      'Finish with almost all your weight on your lead foot and your belt buckle facing the target.',
+    ],
+    plan: '10 balls with the step-through, then 15 balls holding the finish on your lead foot.',
+  },
+  tempo_fast: {
+    title: '"One-Two-Three" Tempo',
+    fault: 'Backswing is rushed compared to the downswing',
+    why: 'A quick backswing leaves no time to set the club at the top. Good players take about 3x longer going back than coming down.',
+    cue: 'Smooth back, speed through.',
+    equipment: 'None',
+    steps: [
+      'Say "one-two" out loud slowly during the backswing.',
+      'Say "three" as you hit the ball.',
+      'Keep the count the same on every swing, no matter which club.',
+    ],
+    plan: 'Hit 20 balls counting out loud. Then 10 balls counting in your head.',
+  },
+  tempo_slow: {
+    title: 'Continuous Swing Drill',
+    fault: 'Pausing or dragging at the top of the backswing',
+    why: 'A long pause at the top kills the natural rhythm and often leads to throwing the club from the top.',
+    cue: 'Swing like a pendulum, no stopping.',
+    equipment: 'None',
+    steps: [
+      'Without a ball, swing back and through continuously 5 times without stopping, like a pendulum.',
+      'Step up to a ball and keep that same flowing rhythm.',
+      'Count "one-and-two": "one" at the top, "two" at impact, with no gap.',
+    ],
+    plan: '5 continuous rehearsal swings, then 20 balls with the "one-and-two" rhythm.',
+  },
+  finish: {
+    title: 'Hold the Pose',
+    fault: 'Finish is short or off balance',
+    why: 'A full, balanced finish is proof that you accelerated through the ball and stayed in balance.',
+    cue: 'Pose for the photo.',
+    equipment: 'None',
+    steps: [
+      'Swing all the way through until your hands are above your lead shoulder.',
+      'Belt buckle and chest face the target, trail foot up on its toe.',
+      'Hold the finish for a slow count of three before you move.',
+    ],
+    plan: 'Every ball in this bucket: hold your finish for 3 seconds. If you wobble, swing at 80% on the next one.',
+  },
+  maintain: {
+    title: 'Groove It: Ladder Drill',
+    fault: 'No major faults found. Keep building consistency.',
+    why: 'Your fundamentals look solid on this swing. Consistency comes from repeating a good motion at different speeds.',
+    cue: 'Same swing, different speeds.',
+    equipment: 'None',
+    steps: [
+      'Hit 5 balls with a half swing (hip high to hip high).',
+      'Hit 5 balls with a three-quarter swing.',
+      'Hit 5 balls with a full swing, keeping the same rhythm as the half swing.',
+    ],
+    plan: 'Repeat the half / three-quarter / full ladder twice with a mid iron.',
+  },
+};
+
+export function drillFor(finding) {
+  if (!finding) return DRILLS.maintain;
+  return DRILLS[finding.drill || finding.id] || DRILLS.maintain;
+}

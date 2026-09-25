@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d2b20">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Range Coach</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛳</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <button id="backBtn" class="icon-btn" aria-label="Back" hidden>‹</button>
+    <h1>⛳ Range Coach</h1>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="screen-home" class="screen active">
+      <div class="hero">
+        <h2>Record one swing.<br>Get one simple drill.</h2>
+        <p>Prop your phone up, swing, and get an easy fix to work on with your next bucket.</p>
+      </div>
+
+      <button id="recordBtn" class="btn primary big">🎥 Record my swing</button>
+      <label class="btn secondary big" for="fileInput">📁 Analyze a saved video</label>
+      <input id="fileInput" type="file" accept="video/*" hidden>
+      <button id="libraryBtn" class="btn ghost big">📋 Browse all drills</button>
+
+      <details class="card" open>
+        <summary>My settings</summary>
+        <div class="setting">
+          <span>I swing</span>
+          <div class="seg" data-setting="handedness">
+            <button data-value="right">Right-handed</button>
+            <button data-value="left">Left-handed</button>
+          </div>
+        </div>
+        <div class="setting">
+          <span>Camera angle</span>
+          <div class="seg" data-setting="view">
+            <button data-value="auto">Auto</button>
+            <button data-value="face-on">Face-on</button>
+            <button data-value="down-the-line">Down-the-line</button>
+          </div>
+        </div>
+        <div class="setting">
+          <span>Countdown</span>
+          <div class="seg" data-setting="countdown">
+            <button data-value="3">3s</button>
+            <button data-value="5">5s</button>
+            <button data-value="10">10s</button>
+          </div>
+        </div>
+        <div class="setting">
+          <span>Record for</span>
+          <div class="seg" data-setting="duration">
+            <button data-value="5">5s</button>
+            <button data-value="8">8s</button>
+            <button data-value="12">12s</button>
+          </div>
+        </div>
+        <div class="setting">
+          <span>Voice coach</span>
+          <div class="seg" data-setting="voice">
+            <button data-value="on">On</button>
+            <button data-value="off">Off</button>
+          </div>
+        </div>
+        <div class="setting">
+          <span>Tracking</span>
+          <div class="seg" data-setting="model">
+            <button data-value="lite">Fast</button>
+            <button data-value="full">Precise</button>
+          </div>
+        </div>
+      </details>
+
+      <details class="card">
+        <summary>How to set up your phone</summary>
+        <div class="howto">
+          <div>
+            <h4>Face-on (best for sway, weight shift, arms)</h4>
+            <p>Phone about 3–4 steps in front of you, facing your chest, at hip height. Lean it on your bag or a water bottle.</p>
+          </div>
+          <div>
+            <h4>Down-the-line (best for posture)</h4>
+            <p>Phone 3–4 steps behind you, looking down your target line, at hip height.</p>
+          </div>
+          <ul>
+            <li>Your whole body, head to feet, must be in view.</li>
+            <li>Hit <b>Record</b>, walk to the ball, set up and swing.</li>
+            <li>Hold your finish for 2 seconds.</li>
+            <li>Good light helps. Don't stand with the sun right behind you.</li>
+          </ul>
+        </div>
+      </details>
+
+      <div id="historyCard" class="card" hidden>
+        <h3>Recent swings</h3>
+        <ul id="historyList" class="history"></ul>
+      </div>
+
+      <p class="fine">Everything runs on your phone. Your video is never uploaded.</p>
+    </section>
+
+    <!-- CAPTURE -->
+    <section id="screen-capture" class="screen">
+      <div class="stage" id="captureStage">
+        <video id="camVideo" playsinline muted autoplay></video>
+        <canvas id="camOverlay"></canvas>
+        <div id="statusPill" class="pill">Starting camera…</div>
+        <div id="countdown" class="countdown" hidden></div>
+        <div id="recDot" class="rec" hidden>● REC <span id="recTime"></span></div>
+      </div>
+      <div class="controls">
+        <button id="flipBtn" class="btn ghost">🔄 Flip</button>
+        <button id="startBtn" class="btn primary" disabled>Start</button>
+        <button id="stopBtn" class="btn danger" hidden>Stop</button>
+      </div>
+      <p class="fine" id="captureHint">After the countdown, set up and make one full swing. Hold your finish.</p>
+    </section>
+
+    <!-- ANALYZING -->
+    <section id="screen-analyzing" class="screen">
+      <div class="center">
+        <div class="spinner"></div>
+        <h3 id="analyzeTitle">Analyzing your swing…</h3>
+        <div class="progress"><div id="analyzeBar"></div></div>
+        <p id="analyzeMsg" class="fine"></p>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="screen-results" class="screen">
+      <div class="score-row">
+        <div class="score" id="scoreRing"><span id="scoreNum">--</span><small>swing score</small></div>
+        <div>
+          <p class="muted" id="viewLabel"></p>
+          <p class="muted" id="tempoLabel"></p>
+        </div>
+      </div>
+
+      <div id="visWarn" class="note" hidden>I couldn't see your feet clearly, so posture numbers may be off. Step back a bit next time.</div>
+
+      <article class="card focus" id="focusCard"></article>
+
+      <div class="card">
+        <h3>Slow-motion replay</h3>
+        <div class="stage replay"><canvas id="replayCanvas"></canvas></div>
+        <input id="scrub" type="range" min="0" max="0" value="0" aria-label="Scrub replay">
+        <div class="controls small">
+          <button id="playBtn" class="btn ghost">▶ Play</button>
+          <div class="seg" id="speedSeg">
+            <button data-speed="0.25" class="on">¼×</button>
+            <button data-speed="0.5">½×</button>
+            <button data-speed="1">1×</button>
+          </div>
+        </div>
+        <div class="phases" id="phases"></div>
+        <p class="fine">Dashed lines show where your head and hips started.</p>
+      </div>
+
+      <div class="card">
+        <h3>Swing checklist</h3>
+        <ul id="checklist" class="checklist"></ul>
+      </div>
+
+      <div class="controls">
+        <button id="againBtn" class="btn primary">🎥 Swing again</button>
+        <button id="homeBtn" class="btn ghost">Home</button>
+      </div>
+    </section>
+
+    <!-- LIBRARY -->
+    <section id="screen-library" class="screen">
+      <h2>Drill library</h2>
+      <p class="muted">Simple drills you can take to the range. Pick one per bucket.</p>
+      <div id="libraryList"></div>
+    </section>
+
+    <!-- ERROR / MESSAGE -->
+    <section id="screen-message" class="screen">
+      <div class="center">
+        <div class="big-emoji">🤔</div>
+        <h3 id="msgTitle">Hmm</h3>
+        <p id="msgText"></p>
+        <button id="msgRetry" class="btn primary">Try again</button>
+        <button id="msgHome" class="btn ghost">Home</button>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
