@@ -28,7 +28,29 @@ Everything runs in the browser, on your device. Your video is never uploaded.
 
 You can also analyze a video you already recorded (e.g. slow-mo from your camera app) with **Analyze a saved video**.
 
-## Running it
+## Android app (APK)
+
+Build the installable app with:
+
+```bash
+golf-coach/android/build-apk.sh    # -> golf-coach/android/build/RangeCoach.apk
+```
+
+The APK bundles the pose tracker and models (about 19 MB), so it **works offline at the range**.
+It is a small native WebView wrapper (`android/src/.../MainActivity.java`) that:
+- serves the app from inside the APK over `https://appassets.androidplatform.net` (a secure context, which the camera requires),
+- asks for camera permission and opens the video picker for **Analyze a saved video**,
+- speaks the drills with Android text-to-speech and keeps the screen on while you record.
+
+To install: copy `RangeCoach.apk` to your phone, tap it, and allow *Install unknown apps* for the
+app you opened it with (Files, Chrome, Drive…). Android 7.0 or newer is required.
+
+The script builds without Gradle or Android Studio. It needs `aapt2`, `zipalign`, `apksigner`, a JDK,
+and a dexer (`d8` or `dalvik-exchange`). The script header lists the Ubuntu packages.
+It signs with `android/rangecoach.keystore` (password `android`). Keep using the same keystore
+so new builds install as updates without losing your swing history.
+
+## Running it in a browser
 
 The camera only works on `https://` or `localhost`.
 
@@ -62,6 +84,7 @@ golf-coach/
 ├── js/pose.js        MediaPipe loader, frame capture, skeleton drawing
 ├── js/analysis.js    swing phase detection + checks (pure functions)
 ├── js/drills.js      drill library
+├── android/          APK wrapper + build script
 └── tests/            unit tests with synthetic swings
 ```
 

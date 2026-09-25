@@ -52,7 +52,10 @@ function showMessage(title, text, retry) {
 
 // ---------- voice & sounds ----------
 function speak(text) {
-  if (settings.voice !== 'on' || !('speechSynthesis' in window)) return;
+  if (settings.voice !== 'on') return;
+  // Android app: WebView has no speechSynthesis, so use the native bridge.
+  if (window.AndroidApp?.speak) { window.AndroidApp.speak(text); return; }
+  if (!('speechSynthesis' in window)) return;
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.rate = 1;
@@ -514,6 +517,13 @@ $('#libraryBtn').onclick = () => {
         ${drillHTML(d)}
       </details>`).join('');
   show('library');
+};
+
+// Android back button: go back to the home screen, or exit from home.
+window.__androidBack = () => {
+  if (current === 'home') return false;
+  goHome();
+  return true;
 };
 
 renderHistory();

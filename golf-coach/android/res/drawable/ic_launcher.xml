@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Launcher icon: flag on a green, with a ball. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp" android:height="48dp"
+    android:viewportWidth="48" android:viewportHeight="48">
+    <path android:fillColor="#0D2B20" android:pathData="M24,1a23,23 0 1,0 0.01,0z" />
+    <path android:fillColor="#7CFFB2" android:pathData="M6,34 Q24,27 42,34 A23,23 0 0,1 6,34z" />
+    <path android:fillColor="#F2F7F4" android:pathData="M21,9h1.8v24h-1.8z" />
+    <path android:fillColor="#FF5A4E" android:pathData="M22.8,9 L35,13.5 L22.8,18z" />
+    <path android:fillColor="#F2F7F4" android:pathData="M31,36a3,3 0 1,0 0.01,0z" />
+</vector>

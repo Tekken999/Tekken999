@@ -1,10 +1,16 @@
 // MediaPipe pose tracking + frame capture. Runs fully on-device in the browser.
-import { PoseLandmarker, FilesetResolver } from 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs';
 
-const WASM = 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm';
-const MODELS = {
-  lite: 'https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task',
-  full: 'https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/1/pose_landmarker_full.task',
+// Loaded from the CDN on the web. The Android app bundles these files and sets
+// window.RC_ASSETS (see android/build-apk.sh) so it works offline.
+const CDN = 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14';
+const MODEL_CDN = 'https://storage.googleapis.com/mediapipe-models/pose_landmarker';
+const ASSETS = globalThis.RC_ASSETS || {
+  bundle: `${CDN}/vision_bundle.mjs`,
+  wasm: `${CDN}/wasm`,
+  models: {
+    lite: `${MODEL_CDN}/pose_landmarker_lite/float16/1/pose_landmarker_lite.task`,
+    full: `${MODEL_CDN}/pose_landmarker_full/float16/1/pose_landmarker_full.task`,
+  },
 };
 
 let cached = { key: null, landmarker: null };
@@ -12,9 +18,10 @@ let cached = { key: null, landmarker: null };
 export async function loadLandmarker(model = 'lite') {
   if (cached.key === model) return cached.landmarker;
   cached.landmarker?.close();
-  const vision = await FilesetResolver.forVisionTasks(WASM);
+  const { PoseLandmarker, FilesetResolver } = await import(ASSETS.bundle);
+  const vision = await FilesetResolver.forVisionTasks(ASSETS.wasm);
   const opts = (delegate) => ({
-    baseOptions: { modelAssetPath: MODELS[model], delegate },
+    baseOptions: { modelAssetPath: ASSETS.models[model], delegate },
     runningMode: 'VIDEO',
     numPoses: 1,
     minPoseDetectionConfidence: 0.5,
