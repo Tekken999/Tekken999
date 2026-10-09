@@ -1,76 +1,101 @@
-# Flip-Up Buffet Arcade Cabinet
+# Flip-Up Buffet Arcade Cabinet (Swap Arcade style)
 
-A free-standing cabinet that looks like a small buffet/sideboard when closed and
-flips up into a full-height arcade cabinet. **The screen and control panel are
-one piece.** It swings up out of the front in a single motion, so the cabinet
-can stay against the wall.
+A free-standing cabinet modeled on the [Swap Arcade](https://www.kickstarter.com/projects/amat/swap-arcade-full-arcade-that-turns-into-a-furniture-cabinet).
+When closed it looks like a mid-century double-door cabinet. The "doors"
+don't open, because they're the back of the display unit. To play, the
+display unit swings up out of the front, and a front panel on it folds down
+into the control deck.
 
-| Mode | Target (given) | This design |
+| Mode | Swap Arcade (published) | This design |
 |---|---|---|
-| Cabinet / buffet (closed) | 36 × 29 × 13.5 in (91.4 × 73.7 × 34.3 cm) | **36 H × 29 W × 13.5 D in** |
-| Arcade (open) | 70 × 28 × 14 in (177.8 × 71.1 × 35.6 cm) | **65 H** (70 with the lift-off topper) × 29 W × 13.5 D + 7.4 in control panel overhang |
-| Weight | ~100 lb / 45 kg | ~90–100 lb with PC and ballast |
+| Closed | 36 × 29 × 13.5 in (91.4 × 73.7 × 34.3 cm) | **36 H × 29 W × 13.5 D in** |
+| Arcade | 70 × 28 × 14 in (177.8 × 71.1 × 35.6 cm) | **64.5 H** (70 with the lift-off topper) × 29 W × 13.5 D, plus the deck reaching 7.9 in forward |
+| Screen | 27 in | 27 in max |
+| Weight | ~100 lb / 45 kg | ~90–100 lb |
 
-| Closed | Open | Flipping |
-|---|---|---|
-| ![cabinet mode](cabinet_mode.svg) | ![arcade mode](arcade_mode.svg) | ![flip sequence](flip_sequence.svg) |
+| Closed (front) | Closed (side) | Open (side) | Flipping |
+|---|---|---|---|
+| ![front](front_closed.svg) | ![cabinet mode](cabinet_mode.svg) | ![arcade mode](arcade_mode.svg) | ![flip sequence](flip_sequence.svg) |
 
-All drawings are side sections: front on the left, wall on the right. The
-dashed outline is the side panel.
+The side views are sections with the front on the left and the wall on the
+right. The dashed outline is the side panel.
 
 ---
 
-## How it folds
+## How it works
 
-**The flip unit** is the screen tower (monitor, speakers, marquee) with the
-control panel fixed to its face.
+**What matches the Swap Arcade.** Their published details describe these
+features, and this design has all of them:
+- The closed front is fake double doors made from the back of the display unit.
+- The display unit pivots up out of the front.
+- A front panel folds down to become a 2-player control deck.
+- Storage is in the base and can only be reached in arcade mode.
+- Locking pins hold the display unit in both positions.
 
-- **Closed:** the tower hangs **upside down** in a 4-1/4 in slot at the
-  **front** of the cabinet. Its back panel is the buffet's front face, and the
-  screen faces into the cabinet where it's protected. The control panel sticks
-  backward into the cabinet, upside down, with the sticks pointing at the floor
-  and out of harm's way.
-- **Flipping:** a 1/2 in pivot bolt sits 2.5 in below the top of the tower.
-  You pull the bottom of the tower out toward you and walk it up over the top.
-  It turns 180° and stands upright in the same slot. The control panel comes
-  around with it and ends up in front of the screen, **39 in off the floor**,
-  controls up.
-- **Locking:** two spring index plungers per side lock the unit closed or open.
-- **Outrigger feet:** two hardwood bars under the cabinet slide 10 in forward
-  before you flip, and stay out while you play. The flip unit swings out the
-  front, and players lean on the panel, so these keep the cabinet from tipping
-  forward.
+**What's my own engineering.** Their exact hinge geometry and counterbalance
+aren't public, so these parts are my design:
+- the pivot position and clearances;
+- the deck pocket;
+- the storage layout;
+- the outrigger feet.
 
-Behind the slot:
+### The display unit
+It's a 34 × 27.25 × 6.75 in box holding the monitor, the marquee with a
+speaker on each side, and the control deck. Optionally, the mini PC can go in
+there too.
 
-- **Lid:** the fixed top is piano-hinged at the back, so it doubles as a lid
-  for reaching the storage.
-- **Storage:** the bay below 22 in holds the PC, amp and power strip. Its inset
-  doors are hidden behind the tower when closed and become the kick panel when
-  open.
-- **Flip zone:** the space between 22 in and the lid is where the control panel
-  swings through. **Keep it empty.**
+- **Closed:** it hangs **upside down** in a 6.75 in slot at the front of the
+  cabinet. The screen faces inward. Its 1/2 in walnut-veneered back is the
+  cabinet front, with a center groove and two dummy pulls so it reads as
+  double doors.
+- **Flipping:** a 1/2 in pivot bolt goes through both side panels, 2.75 in
+  below the top of the unit. You pull the bottom of the unit out toward you
+  and walk it up and over. It turns 180° and sits upright in the same slot.
+- **Locking:** two spring index plungers per side lock it closed and open.
+  These are the "locking pins."
+
+### The control deck
+- **Folded:** the deck is a shallow box (8 × 25.25 × 3.5 in) stowed upright
+  in a pocket in the lower front of the display unit. Its plain back is flush
+  with the unit's front, and the sticks point into the unit.
+- **Down:** in arcade mode, you pull the finger lip and the deck drops 90° on
+  a hinge along its bottom edge. It ends up horizontal with the **controls on
+  top at 38.5 in**. Two drop-front stays hold it level.
+- **The empty pocket** behind the deck becomes a recessed panel above the
+  controls. Use it for a decal or LED strip.
+
+### Storage
+- There's a 4.6 in deep, 27.5 in wide bay with 2 shelves behind the slot.
+- The inset doors are hidden behind the display unit when closed. In arcade
+  mode, the unit is up and the doors open under the deck.
+- It holds controllers, cables, games and a slim PC. A 4.6 in depth is tight
+  for a full slim PC, so mount the mini PC inside the display unit behind the
+  monitor if it doesn't fit.
 
 ### Height
+The display unit has to fit inside the 36 in box when closed, and 2.75 in of
+it stays inside the side panels when it's up for rigidity. That makes it
+64.5 in tall. The Swap Arcade's 70 in likely includes a marquee section, so
+add the 5.5 in lift-off topper to match.
 
-The tower has to fit inside the 36 in box when closed, and 2.5 in of it stays
-inside the side panels when it's up for rigidity. That makes it 65 in tall
-open. A 5 in lift-off marquee topper (it stores in the cabinet) brings it to
-70 in.
+---
 
-### Things to know before you build
+## Things to know before you build
 
-- **You need about 30 in clear in front of the cabinet** to flip it, and
-  nothing behind it. Leave it against the wall.
-- **Always pull the outriggers out before flipping.** When the unit is
-  horizontal, its weight is about a foot in front of the cabinet.
-- Lifting takes about **15 lb at the end of the tower** when it's horizontal.
-  The flip unit weighs about 33 lb with a 27 in monitor and the controls.
-  Do the first few flips with two people.
-- **Max screen: 27 in 16:9.** The tower interior is 26.25 in wide and 3.25 in
-  deep (including the VESA bracket).
-- **Strap it to the wall** like any tall furniture. Put 15–20 lb of ballast low
-  in the back of the storage bay.
+- **You need about 28 in clear in front** while flipping, and nothing behind
+  it. It can live against the wall.
+- **Pull the outrigger feet out before flipping** (12 in forward), and leave
+  them out while playing. When the unit is horizontal, its weight is well in
+  front of the cabinet.
+- **Lifting:** it takes about **18 lb at the end of the unit** when it's
+  horizontal. The unit weighs about 35 lb.
+  - The Swap Arcade uses a counterbalance. I haven't designed one here,
+    because a gas strut that assists over a full 180° swing needs testing on
+    a mock-up.
+  - Start with two people. Once the mock-up is working, I can work out a
+    strut or torsion-spring layout.
+- **Max screen: 27 in 16:9** (26.25 in inside width).
+- **Strap it to the wall** like any tall furniture.
 
 ---
 
@@ -82,28 +107,14 @@ Measure the monitor **without its stand**, then run:
 python3 design.py --monitor-w <width incl. bezel> --monitor-h <height incl. bezel> --monitor-d <thickness>
 ```
 
-The script:
-
-- prints the key dimensions and the cut list;
-- checks that the flip unit clears every fixed part at every degree of the
-  swing (at least 1/4 in everywhere);
-- redraws the three SVGs.
-
-The defaults assume a typical 27 in monitor (24.1 × 14.3 × 2.2 in). Also
-write down:
+It prints the dimensions and cut list. It also checks that the unit, the
+folded deck and the sticks clear every fixed part at every degree of the flip,
+with at least 1/4 in to spare. Then it redraws all four SVGs. The defaults
+assume a typical 27 in monitor (24.1 × 14.3 × 2.2 in).
 
 - [ ] Width × height × thickness (no stand): ____ × ____ × ____
 - [ ] VESA pattern (75 / 100): ____
 - [ ] Weight: ____
-- [ ] Which side the ports exit (back-down is best): ____
-- [ ] Power brick: internal / external
-
-| Diagonal (16:9) | W × H (approx.) | Fits? |
-|---|---|---|
-| 22 in | 19.6 × 11.6 | yes |
-| 24 in | 21.3 × 12.6 | yes |
-| 27 in | 24.1 × 14.3 | yes (max) |
-| 32 in | 28.5 × 16.8 | no |
 
 ---
 
@@ -116,23 +127,19 @@ the floor.
 |---|---|
 | Leveling glides | 1 in (carcass sits at z = 1) |
 | Side panels | 13.5 D × 35 H, 3/4 ply, 27.5 in apart |
-| Tower slot | y 0 → 4.25, open at the front, top and bottom |
-| **Tower pivot** | **y = 2.0, z = 33.5**, 1/2 in bolt through both side panels |
-| Lock plungers | y = 2.0 at z = 32.0 and z = 35.0 (both sides) |
-| Tower closed / open | z 2 → 36 / z 31 → 65 |
-| Control panel (open) | top at z = 39, sticks out 7.4 in from the screen face |
-| Control panel (closed) | upside down behind the tower, z 28 → 32, stick tips down to about z 25.5 |
-| Lid | y 4.25 → 13.5, top at z = 36, piano-hinged on the back panel |
-| Storage bay | y 5 → 12.75, floor at z = 1.75, top at z = 22 |
-| Storage doors | inset at y 4.25, z 1.75 → 22 |
-| Flip zone (keep clear) | everything above z = 22 behind the tower |
-| Arcade layout on the tower | panel z 35–39, monitor from z 40, speakers above it, marquee z 58–64 |
+| Display slot | y 0 → 7.375, open at the front, top and bottom |
+| **Pivot** | **y = 3.5, z = 33.25**, 1/2 in bolt through both side panels |
+| Lock plungers | y = 3.5 at z = 31.75 and z = 34.75 (both sides) |
+| Display unit closed / open | z 2 → 36 / z 30.5 → 64.5 |
+| Deck hinge (open) | on the unit front at z = 35; deck top at 38.5 |
+| Monitor | from z = 43.5 |
+| Marquee and speakers | z 58.75 → 63.75 |
+| Storage | doors at y = 7.375, z 1.75 → 29.75; fixed face rail above them; 2 shelves |
 
 The tightest spots during the flip:
 
-- the tower's rounded top corner passes the lid's front edge with about 0.3 in
-  to spare;
-- the tower clears the storage doors by about 0.37 in.
+- the unit's rounded end passes the face rail with about 0.4 in to spare;
+- the folded sticks sit 1/4 in short of the unit's back panel.
 
 **If you change any dimension, change it in `design.py` and re-run it.**
 
@@ -145,148 +152,136 @@ Generated by `design.py` for the default 27 in monitor.
 ### 3/4" plywood (one 4×8 sheet)
 | Part | Qty | Size | Notes |
 |---|---|---|---|
-| Side panel | 2 | 35 × 13-1/2 | Drill as a clamped pair so the pivot and plunger holes line up |
-| Back | 1 | 27-1/2 × 34-1/4 | Structural; 2" cable grommet |
-| Bottom | 1 | 27-1/2 × 8-1/2 | Storage floor only; there's no floor under the tower slot |
-| Top / lid | 1 | 27-1/2 × 9-1/4 | Buffet top, piano-hinged to the back panel |
-| Storage top | 1 | 27-1/2 × 7-3/4 | Top surface at 22"; nothing goes above it |
-| Storage door | 2 | 20-1/8 × 13-21/32 | Inset. Cut last, to fit the opening |
+| Side panel | 2 | 35 × 13-1/2 | Drill as a clamped pair for the pivot and plunger holes |
+| Back | 1 | 27-1/2 × 34-1/4 | Structural; glue along its full height |
+| Top | 1 | 27-1/2 × 6-1/8 | Fixed top behind the slot |
+| Bottom | 1 | 27-1/2 × 4-5/8 | Storage floor; there's no floor under the slot |
+| Shelf | 2 | 27-1/2 × 4-5/8 | Set in dadoes |
+| Face rail | 1 | 27-1/2 × 5-1/2 | Fixed, above the storage doors |
+| Storage door | 2 | 27-7/8 × 13-21/32 | Inset; cut last, to fit the opening |
 
 ### 1/2" Baltic birch (one 5×5 sheet)
 | Part | Qty | Size | Notes |
 |---|---|---|---|
-| Tower side | 2 | 34 × 3-3/4 | 1-1/2" radius on the two corners at the pivot end, 1/2" at the other end |
-| Tower end cap | 2 | 26-1/4 × 3-1/4 | |
-| Control plate | 1 | 27-1/4 × 7-1/2 | Buttons and sticks mount here |
-| Control box bottom | 1 | 26-1/4 × 7 | Screw on so you can reach the wiring |
-| Control box front | 1 | 26-1/4 × 3 | |
-| Control box cheek | 2 | 7-1/2 × 7 | Box ends: 4" box with a 3" triangular gusset below (see `arcade_mode.svg`) |
-| Topper (optional) | 1 set | 27-1/4 × 5 × 3-3/4 box | Lift-off, sits on 2 dowels |
+| Unit side | 2 | 34 × 6-3/4 | 2-1/4" radius on the two corners at the pivot end, 1/2" at the other end |
+| Unit end cap | 2 | 26-1/4 × 6-1/4 | |
+| Deck pocket back | 1 | 26-1/4 × 8 | Two 2-1/2" holes where the sticks pass through when folded |
+| Deck control plate | 1 | 25-1/4 × 8 | Buttons and sticks mount here |
+| Deck side | 2 | 8 × 2-3/4 | |
+| Deck end | 2 | 24-1/4 × 2-3/4 | Hinge end and front lip (finger pull) |
 
-### 1/4" sheet
+### Show faces and 1/4" sheet
 | Part | Qty | Size | Notes |
 |---|---|---|---|
-| Tower back | 1 | 34 × 27-1/4 | **This is the buffet front when closed.** Use nice ply or veneer and add a finger pull near the bottom |
-| Tower bezel | 1 | 34 × 27-1/4 | Black MDF; cutouts for screen, speakers and marquee |
+| Unit back ("double doors") | 1 | 34 × 27-1/4 | 1/2" walnut-veneer ply. Rout a center groove and add 2 dummy pulls |
+| Bezel | 1 | 21-1/2 × 27-1/4 | 1/4" black MDF; screen and marquee/speaker cutouts |
+| Deck cover | 1 | 25-1/4 × 8 | 1/4" ply. Screwed on; it's the unit's lower front face when folded, so veneer it to match |
 
 ### Hardwood and acrylic
 | Part | Qty | Size | Notes |
 |---|---|---|---|
-| Panel mounting rail | 1 | 26-1/4 × 3 × 3/4 | Inside the tower behind the panel; the panel bolts through the bezel into it |
-| Tower pivot doubler | 2 | 6 × 3-1/4 × 3/4 | Glued inside each tower side at the pivot end |
-| Outrigger bar | 2 | 14 × 1-1/2 × 3/4 | Anti-tip feet |
-| Marquee | 1 | 26-1/4 × 6 × 1/8 acrylic | |
+| Deck pocket floor / hinge rail | 1 | 26-1/4 × 3-1/2 × 3/4 | |
+| Unit pivot doubler | 2 | 7 × 6-1/4 × 3/4 | Glued inside each unit side at the pivot end |
+| Outrigger bar | 2 | 16 × 1-1/2 × 3/4 | Anti-tip feet |
+| Marquee | 1 | 18-1/4 × 5 × 1/8 acrylic | 3" speaker grille on each side |
 
-**Before you cut:**
-- **Measure your plywood.** "3/4" plywood is often 23/32".
-- **Cut the tower parts and storage doors last,** sized from the real gap
-  between the assembled side panels.
-- **Check the control box against your control kit.** It's 3 in deep inside,
-  which fits Sanwa JLF-style sticks. Check the below-panel depth on anything
-  else.
+**Before you cut:** measure your plywood ("3/4" is often 23/32"). Cut the
+display unit and the storage doors last, sized from the real gap between the
+assembled side panels.
 
 ---
 
 ## Hardware and parts list
 
 **Pivot and locks**
-- 2× 1/2 in-13 × 3 in hex bolts (tower pivot) + nylon-insert lock nuts + fender washers
-- 4× 1/2 in ID flanged bronze bushings (2 in the side panels, 2 in the tower doublers)
-- 4× 1/2 in UHMW or nylon washers (between the tower and the side panels)
-- 4× 1/2 in spring index plungers with pull ring and rest position (2 per side)
-- 4× 1/2 in ID steel sleeves for the plunger holes in the tower doublers
-- 2× 3/16 in steel plates, about 2 × 6 in, on the outside of each side panel around the pivot and plungers
-- 4× 1/4 in-20 carriage bolts + T-nuts (control panel to mounting rail)
-- 2× 4 in steel corner braces inside the control box cheeks
+- 2× 1/2 in-13 × 3 in hex bolts + nylon-insert lock nuts + fender washers
+- 4× 1/2 in ID flanged bronze bushings
+- 4× 1/2 in UHMW or nylon washers
+- 4× 1/2 in spring index plungers with pull ring and rest position
+- 4× 1/2 in ID steel sleeves for the plunger holes
+- 2× 3/16 in steel plates, about 2 × 6 in, on the outside of each side panel at the pivot
+
+**Control deck**
+- 1× 25 in piano hinge (heavy gauge), along the bottom edge of the deck
+- 2× drop-front / flap stays rated 20 kg (45 lb) or more, one each side (they sit in the 1/2 in gaps beside the deck)
+- 2× magnetic or touch latches (hold the deck folded)
 
 **Carcass**
-- 4× 1 in adjustable leveling glides + T-nuts
-- 27 in piano hinge + lid stay (for the top)
-- 4× inset Euro hinges + 2 magnetic catches (storage doors)
-- 1 recessed finger pull (bottom of the tower back, to start the flip)
-- UHMW tape for the outrigger channels, stop pins, felt pads
-- Furniture anti-tip wall strap
-- Wood glue, 1-1/4 in pocket screws, 1 in brads, edge banding
+- 4× 1 in leveling glides + T-nuts (or short mid-century tapered legs; every height goes up by the leg height)
+- 4× inset Euro hinges + 2 knobs (storage doors)
+- 2× brass dummy pulls (the fake doors)
+- UHMW tape, stop pins and felt pads (outriggers)
+- Anti-tip wall strap
+- Wood glue, pocket screws, brads, walnut edge banding
 
-**Electronics**
-- Monitor, 27 in max, VESA mount, with a low-profile flat VESA plate
-- 2-player control kit: 2 sticks + 16–20 × 30 mm buttons + USB encoder(s)
-- 2× 3 in full-range speakers + small 2×15 W amp
-- 12 V LED strip + supply for the marquee
-- Computer (your slim PC, mini PC, Pi 5 or console) in the storage bay
-- Switched power strip, slim flexible HDMI cable (at least 6 ft), spiral wrap, 2 in grommet
+**Electronics** (the Swap Arcade ships a Raspberry Pi 4 running Batocera, and lists an N100 mini PC as an upgrade)
+- 27 in max monitor with VESA mount and a flat VESA plate
+- 2-player kit: 2 Sanwa JLF-style sticks + 16 × 30 mm buttons + USB encoder. The deck is 2-3/4 in deep inside.
+- 2× 3 in speakers + small 2×15 W amp
+- 12 V LED strip (marquee)
+- Pi 4/5 or a mini PC, mounted inside the display unit behind the monitor. That way everything flips together and only one power cord crosses the pivot.
 
 ---
 
-## Cable routing through the flip
+## Cable routing
 
-Everything on the flip unit (monitor, speakers, marquee, and the USB from the
-control panel) leaves it in **one bundle, near the pivot**. That way the
-bundle only twists instead of stretching.
+Put the computer, amp and power supplies **inside the display unit**. Then the
+only thing that has to cross the flip is **one power cord**:
 
-1. The panel's USB goes straight back through a hole in the tower face behind
-   the control box, into the tower.
-2. The whole bundle leaves the tower through a 1.5 in hole in the tower face,
-   **1 in below the pivot, between the panel gussets**. It's hidden under the
-   panel when open.
-3. Leave an **18 in slack loop** in spiral wrap, then pass it into the storage
-   bay through a 2 in grommet at the front of the storage top.
-4. Cycle the flip 10–20 times with the bundle in place before closing
-   everything up. Make sure it never catches on the lid edge or the storage
-   top.
+1. Run it out of the unit side wall 1 in from the pivot.
+2. Leave a 12 in slack loop in the slot.
+3. Pass it through a grommet in the face rail to a power strip in storage.
+
+If the PC lives in storage instead, run HDMI and USB the same way. Use slim,
+flexible cables and cycle the flip 10–20 times before closing everything up.
 
 ---
 
 ## Build order
 
-1. **Mock it up first.** Use cardboard or scrap MDF for the side panels and the
-   tower-plus-panel unit. Check the swing and the 1/4–3/8 in gaps *before*
-   cutting good plywood.
-2. **Side panels.** Clamp them as a pair and drill the pivot hole and the two
-   plunger holes. Fit the steel plates and bronze bushings.
-3. **Carcass.** Glue and screw the back, bottom and storage top between
-   the sides. Square it up. The back panel is what keeps it
-   from racking, so glue it along its full height. Hinge on the lid.
-4. **Outriggers.** Rout channels in the underside of the bottom (or screw on
-   runners), line them with UHMW tape, and add stop pins so the bars pull out
-   10 in and no further.
-5. **Tower shell.** Glue the sides, end caps, pivot doublers and the panel
-   mounting rail. Round the corners. Drill the pivot hole and the plunger holes
-   1.5 in either side of it, then fit the bushings.
-6. **Control box.** Build it with the cheeks and corner braces, then bolt it
-   through the bezel into the mounting rail. It needs to be rigid: anyone
-   leaning on the panel is leaning on these bolts.
-7. **Hang the unit.** Fit it with the nylon washers and pivot bolts. Flip it
-   slowly and check the gaps at the lid edge and the storage doors. Then fit
-   the plungers.
-8. **Doors.** Hang the storage doors.
-9. **Electronics.** Mount the monitor, speakers and marquee. Wire the
-   controls. Route the bundle and test it through 10–20 flips.
-10. **Finish.** Sand, then paint or veneer. The tower back is the buffet front
-    and the lid is the buffet top, so give both a furniture-grade finish. Add
-    vinyl art on the bezel and marquee.
+1. **Mock it up.** Use cardboard or scrap MDF for the side panels and the
+   display unit, then check the swing.
+2. **Side panels.** Drill them as a pair. Fit the steel plates and bushings.
+3. **Carcass.** Glue up the back, bottom, shelves, top and face rail. Square
+   it up.
+4. **Outriggers.** Fit the channels, UHMW tape and stop pins.
+5. **Display unit.** Build the box: sides, end caps, doublers, deck pocket and
+   bezel. Round the corners. Drill the pivot and plunger holes.
+6. **Control deck.** Build the box, cut the plate, and hinge it into the
+   pocket. Fit the stays so it sits level at 38.5 in.
+7. **Hang the unit.** Fit the nylon washers and pivot bolts, flip it slowly,
+   and check the gaps. Then fit the plungers.
+8. **Storage doors.**
+9. **Electronics.** Fit the monitor, speakers, marquee and the PC behind the
+   monitor. Route the power cord.
+10. **Finish.** Veneer and finish the unit back, the deck cover, the side
+    panels and the top in walnut. Rout the center groove and fit the pulls.
 
 ### Mode change checklist
 
-**Buffet → Arcade:**
-1. Clear the top of the cabinet.
+**Cabinet → Arcade:**
+1. Clear the top.
 2. Pull out both outriggers.
-3. Pull both plunger rings and turn them to the rest position.
-4. Grab the finger pull and swing the bottom of the tower out and up, walking
-   it over.
-5. Release the plungers so they click in.
+3. Pull both plunger rings and set them in the rest position.
+4. Swing the unit forward and up. Release the plungers so they click in.
+5. Pull the finger lip so the deck drops onto its stays.
 6. Set the topper on (optional) and power on.
 
-**Arcade → Buffet:** power off, then run those steps in reverse. Push the
-outriggers in last.
+**Arcade → Cabinet:** power off. Lift the deck to fold it, then reverse the
+remaining steps.
 
 ---
 
-## Open questions / assumptions
+## Open questions
 
-- **"I have a slim…"** got cut off. I assumed it's a slim PC or console that
-  goes in the storage bay. If you meant a slim Arcade1Up to re-house, tell me
-  and I'll adjust the panel and screen sizes.
-- The control panel is at 39 in, which suits standing play or a bar stool.
-  Lowering it is easy: change `PANEL_TOP` and re-run the checks.
-- The monitor is mounted vertical (no tilt), like most slim/fold-flat cabs.
+- **"I have a slim…"** got cut off. Tell me what it is (a slim PC? a slim
+  Arcade1Up?) and I'll fit it in.
+- **Counterbalance:** say if you want one designed after the mock-up.
+- **Legs:** do you want mid-century tapered legs like the Swap Arcade's
+  furniture look? Legs raise both modes by their height. Alternatively, the
+  unit can be shortened to keep 36 in closed.
+
+Sources on the Swap Arcade: [Kickstarter](https://www.kickstarter.com/projects/amat/swap-arcade-full-arcade-that-turns-into-a-furniture-cabinet),
+[Hackster.io](https://www.hackster.io/news/les-cookson-s-swap-arcade-hides-a-full-size-arcade-cabinet-in-a-compact-piece-of-furniture-5df2f6a26c18),
+[Yanko Design](https://www.yankodesign.com/2026/06/12/this-retro-arcade-machine-folds-into-a-furniture-cabinet-right-out-of-pottery-barn/),
+[New Atlas](https://newatlas.com/games/swap-arcade-gaming-system-folds-into-cabinet/).
