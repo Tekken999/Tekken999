@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Flip-up buffet arcade cabinet: geometry checks, cut list and side-view drawings.
+"""Flip-up buffet arcade cabinet (front-flip): geometry checks, cut list and side-view drawings.
+
+The screen tower and the control panel are one rigid unit. Closed, it hangs
+upside down in a slot at the FRONT of the cabinet with the panel tucked inside;
+it swings forward and up 180 degrees into arcade mode.
 
 Usage:
     python3 design.py                                  # default 27" monitor
@@ -21,41 +25,44 @@ T = 0.75            # 3/4" plywood
 GLIDE = 1.0         # leveling glide height -> carcass starts at z = 1
 INNER_W = W - 2 * T  # 27.5 between side panels
 
-DOOR_TOP = 31.25          # top of inset doors (1/4" reveal under control box)
-PARTITION_Y = 8.75        # front face of partition (back of front compartment)
-PARTITION_TOP = 28.5
-DECK_TOP = 28.5           # fixed deck under the stored control box
+SLOT_D = 4.25              # open tower slot at the front, y 0 -> 4.25
+TOP_Z = H - T              # underside of the fixed top / lid (35.25)
+STORAGE_TOP = 22.0         # top of the lower storage bay; the flip zone is above it
 
-# --- Tower (screen + speakers + marquee) -------------------------------------
+# --- Tower + control panel (one rigid unit) ----------------------------------
 TOWER_W = INNER_W - 0.25   # 1/8" each side for nylon washers
 TOWER_D = 3.75
 TOWER_L = 34.0
-TOWER_Y0 = PARTITION_Y + T + 0.125     # 9.625, front face (screen side in arcade mode)
-TOWER_PIVOT_FROM_END = 2.5             # pivot is 2.5" from the "short" end
-TOWER_CORNER_R = 1.0                   # round-over on the 4 short-end corners
-TOWER_WALL = 0.5                       # 1/2" Baltic birch
+TOWER_Y0 = 0.125           # front face (screen side in arcade mode)
+TOWER_PIVOT_FROM_END = 2.5
+TOWER_CORNER_R = 1.5       # round-over on the short-end corners (clears the lid edge)
+TOWER_FOOT_R = 0.5         # round-over on the long-end corners (clears the bottom panel)
+TOWER_WALL = 0.5
 TOWER_BACK = 0.25
 TOWER_BEZEL = 0.25
-TOWER_PIVOT = (TOWER_Y0 + TOWER_D / 2, H - TOWER_PIVOT_FROM_END)  # (11.5, 33.5)
+TOWER_PIVOT = (TOWER_Y0 + TOWER_D / 2, H - TOWER_PIVOT_FROM_END)  # (2.0, 33.5)
 LOCK_OFFSET = 1.5          # index-plunger holes 1.5" either side of the pivot
 
-# --- Control box -------------------------------------------------------------
-BOX_DEPTH = 8.0
-BOX_H = 4.5
-BOX_W = INNER_W - 1.0      # 1/2" gap each side for the folding braces
-BOX_PIVOT = (0.75, H - 0.75)  # (0.75, 35.25)
-STICK_ABOVE_PLATE = 2.5    # ball-top height above the control plate
-STICK_MAX_Y_STORED = 6.0   # keep sticks at least 2" from the box's back edge (stored)
+PANEL_DEPTH = 7.5          # how far the control panel sticks out from the screen face
+PANEL_H = 4.0              # control box height
+PANEL_TOP = 39.0           # control surface height in arcade mode
+GUSSET_H = 3.0             # end cheeks extend this far below the box (stiffness)
+STICK_Y_FROM_FRONT = 3.0
+STICK_H = 2.5              # ball top above the control plate
 
-# --- Arcade-mode layout on the tower (z, arcade orientation) ----------------
-SPEAKER_BAND = (36.0, 40.5)
-MONITOR_BOTTOM = 41.0
+# --- Arcade-mode layout on the tower (z) -------------------------------------
+MONITOR_BOTTOM = PANEL_TOP + 1.0
 MARQUEE_H = 6.0
+SPEAKER_MIN_H = 3.25       # 3" speakers between monitor and marquee
 TOPPER_H = 5.0             # optional lift-off topper to hit 70"
+
+CLEARANCE = 0.25           # minimum gap anywhere during the flip
+TOWER_WEIGHT = 25.0        # lb with a 27" monitor, speakers, marquee
+PANEL_WEIGHT = 8.0         # lb with controls
 
 
 def rot(p, c, deg):
-    """Rotate point p about c by deg (positive = back part of the body goes up)."""
+    """Rotate p about c by deg (positive = counter-clockwise in the side view: back goes up)."""
     a = math.radians(deg)
     dy, dz = p[0] - c[0], p[1] - c[1]
     return (c[0] + dy * math.cos(a) - dz * math.sin(a),
@@ -66,87 +73,161 @@ def rect(y0, z0, y1, z1):
     return [(y0, z0), (y1, z0), (y1, z1), (y0, z1)]
 
 
-def tower_arcade_z():
+def densify(pts, step=0.25):
+    out = []
+    for a, b in zip(pts, pts[1:] + pts[:1]):
+        n = max(1, int(math.dist(a, b) / step))
+        out += [(a[0] + (b[0] - a[0]) * i / n, a[1] + (b[1] - a[1]) * i / n) for i in range(n)]
+    return out
+
+
+# --- Moving unit, defined in ARCADE orientation -------------------------------
+def tower_z():
     z0 = TOWER_PIVOT[1] - TOWER_PIVOT_FROM_END
     return z0, z0 + TOWER_L
 
 
+def tower_shell():
+    """Tower outline with the short (bottom, in arcade mode) end corners rounded."""
+    y0, y1 = TOWER_Y0, TOWER_Y0 + TOWER_D
+    z0, z1 = tower_z()
+    def corner(cy, cz, r, a0):
+        return [(cy + r * math.cos(math.radians(a)), cz + r * math.sin(math.radians(a)))
+                for a in range(a0, a0 + 91, 15)]
+    r, f = TOWER_CORNER_R, TOWER_FOOT_R
+    return (corner(y1 - f, z1 - f, f, 0) + corner(y0 + f, z1 - f, f, 90)
+            + corner(y0 + r, z0 + r, r, 180) + corner(y1 - r, z0 + r, r, 270))
+
+
+def panel_parts():
+    y_front = TOWER_Y0 - PANEL_DEPTH
+    box = rect(y_front, PANEL_TOP - PANEL_H, TOWER_Y0, PANEL_TOP)
+    cheek = [(TOWER_Y0, PANEL_TOP - PANEL_H - GUSSET_H), (TOWER_Y0, PANEL_TOP - PANEL_H),
+             (y_front + 1.0, PANEL_TOP - PANEL_H)]
+    sy = y_front + STICK_Y_FROM_FRONT
+    stick = rect(sy - 0.6, PANEL_TOP, sy + 0.6, PANEL_TOP + STICK_H)
+    return box, cheek, stick
+
+
+def moving_bodies():
+    box, cheek, stick = panel_parts()
+    return {"tower": tower_shell(), "panel": box, "cheek": cheek, "stick": stick}
+
+
+def at_progress(pts, phi):
+    """phi = 0 closed (buffet), 180 open (arcade). The tower's bottom swings forward."""
+    return [rot(p, TOWER_PIVOT, -phi - 180) for p in pts]
+
+
+# --- Fixed parts --------------------------------------------------------------
+def fixed_parts():
+    return {
+        "bottom": rect(SLOT_D, GLIDE, D - T, GLIDE + T),
+        "back": rect(D - T, GLIDE, D, TOP_Z),
+        "top / lid": rect(SLOT_D, TOP_Z, D, H),
+        "storage door": rect(SLOT_D, GLIDE + T, SLOT_D + T, STORAGE_TOP),
+        "storage top": rect(SLOT_D + T, STORAGE_TOP - T, D - T, STORAGE_TOP),
+    }
+
+
+def rect_dist(p, r):
+    (y0, z0), (y1, z1) = r[0], r[2]
+    dy = max(y0 - p[0], 0, p[0] - y1)
+    dz = max(z0 - p[1], 0, p[1] - z1)
+    inside = y0 < p[0] < y1 and z0 < p[1] < z1
+    return -1.0 if inside else math.hypot(dy, dz)
+
+
+def sweep():
+    """Closest approach of the moving unit to each fixed part over the whole flip."""
+    pts = [p for body in moving_bodies().values() for p in densify(body)]
+    fixed = fixed_parts()
+    closest = {k: (math.inf, None) for k in fixed}
+    reach_front, top_z = 0.0, 0.0
+    for phi in range(0, 181):
+        moved = at_progress(pts, phi)
+        reach_front = min(reach_front, min(p[0] for p in moved))
+        top_z = max(top_z, max(p[1] for p in moved))
+        for name, r in fixed.items():
+            d = min(rect_dist(p, r) for p in moved)
+            if d < closest[name][0]:
+                closest[name] = (d, phi)
+    return closest, reach_front, top_z
+
+
 def geometry(args):
-    py, pz = TOWER_PIVOT
-    tz0, tz1 = tower_arcade_z()
-    half = TOWER_D / 2
-    r_tower_end = math.hypot(half - TOWER_CORNER_R, TOWER_PIVOT_FROM_END - TOWER_CORNER_R) + TOWER_CORNER_R
-    r_tower_long = math.hypot(half, TOWER_L - TOWER_PIVOT_FROM_END)
-
-    by, bz = BOX_PIVOT
-    box_far = math.hypot(BOX_DEPTH - by, bz - (H - BOX_H))
-    box_front_corner = math.hypot(by, bz - (H - BOX_H))
-    stick_tip_z = H - BOX_H - STICK_ABOVE_PLATE
-    stick_r = math.hypot(STICK_MAX_Y_STORED - by, bz - stick_tip_z)
-
+    tz0, tz1 = tower_z()
     inner_tw = TOWER_W - 2 * TOWER_WALL
     inner_td = TOWER_D - TOWER_BACK - TOWER_BEZEL
     monitor_top = MONITOR_BOTTOM + args.monitor_h
-    marquee_top = tz1 - 1.0
+    marquee_top = tz1 - 0.75
     marquee_bottom = marquee_top - MARQUEE_H
+    closest, reach_front, top_z = sweep()
 
-    stored_tower_bottom = H - TOWER_L
+    stored = {k: at_progress(v, 0) for k, v in moving_bodies().items()}
+    stored_bottom = min(p[1] for p in stored["tower"])
+    stored_top = max(p[1] for v in stored.values() for p in v)
+    stored_back = max(p[0] for v in stored.values() for p in v)
+
     checks = [
-        ("Tower clears stretcher when stored (bottom z > 1.75)",
-         stored_tower_bottom > GLIDE + T, f"tower bottom at z={stored_tower_bottom:.2f}"),
-        ("Tower end sweep clears partition top",
-         PARTITION_TOP < pz - r_tower_end, f"sweep r={r_tower_end:.2f} -> lowest z {pz - r_tower_end:.2f}"),
-        ("Tower end sweep clears stored control box",
-         BOX_DEPTH < py - r_tower_end, f"box back y={BOX_DEPTH} vs sweep y {py - r_tower_end:.2f}"),
-        ("Control box sweep clears stored tower",
-         by + max(box_far, stick_r) < TOWER_Y0, f"reach y {by + max(box_far, stick_r):.2f} vs tower y {TOWER_Y0}"),
-        ("Control box corner clears door tops",
-         DOOR_TOP < bz - box_front_corner, f"corner dips to z {bz - box_front_corner:.2f}"),
-        ("Stored stick tips clear deck",
-         stick_tip_z >= DECK_TOP + 0.25, f"tips at z {stick_tip_z:.2f}, deck {DECK_TOP}"),
-        (f"Monitor width {args.monitor_w}\" fits tower ({inner_tw:.2f}\")",
-         args.monitor_w <= inner_tw - 0.25, ""),
+        ("Closed: unit fits under the top", stored_top <= TOP_Z - CLEARANCE or
+         max(p[1] for p in stored["tower"]) <= H, f"highest panel point z {max(p[1] for k, v in stored.items() if k != 'tower' for p in v):.2f}"),
+        ("Closed: tower clears the floor", stored_bottom >= GLIDE, f"tower bottom z {stored_bottom:.2f}"),
+        ("Closed: panel clears the back", stored_back <= D - T - CLEARANCE, f"panel reaches y {stored_back:.2f}"),
+    ]
+    for name, (d, phi) in closest.items():
+        checks.append((f"Flip clears {name}", d >= CLEARANCE, f"closest {d:.2f}\" at {phi} deg"))
+    speaker_h = marquee_bottom - monitor_top
+    checks += [
+        (f"Monitor width {args.monitor_w}\" fits tower ({inner_tw:.2f}\")", args.monitor_w <= inner_tw - 0.25, ""),
         (f"Monitor depth {args.monitor_d}\" fits tower ({inner_td:.2f}\" incl. VESA plate)",
          args.monitor_d <= inner_td - 0.5, ""),
-        (f"Monitor height {args.monitor_h}\" fits under marquee",
-         monitor_top <= marquee_bottom - 0.5, f"monitor top z {monitor_top:.2f}, marquee from {marquee_bottom:.2f}"),
+        (f"Monitor height {args.monitor_h}\" leaves room for speakers under the marquee",
+         speaker_h >= SPEAKER_MIN_H, f"monitor top z {monitor_top:.2f}, {speaker_h:.2f}\" speaker band"),
     ]
+
+    # Lift effort with the unit horizontal, lifting at the far end of the tower.
+    arm_tower = (tz0 + tz1) / 2 - TOWER_PIVOT[1] + 3.0      # monitor sits high: bias COG up
+    arm_panel = PANEL_TOP - PANEL_H / 2 - TOWER_PIVOT[1]       # panel is close to the pivot
+    lift = (TOWER_WEIGHT * arm_tower + PANEL_WEIGHT * arm_panel) / (tz1 - TOWER_PIVOT[1])
     return {
         "checks": checks,
-        "r_tower_long": r_tower_long,
-        "wall_clearance": py + r_tower_long - D,
+        "front_clearance": -reach_front,
+        "sweep_top": top_z,
         "arcade_height": tz1,
         "arcade_height_topper": tz1 + TOPPER_H,
-        "panel_height": 2 * bz - (H - BOX_H),
-        "panel_overhang": -(2 * by - BOX_DEPTH),
+        "panel_overhang": PANEL_DEPTH - TOWER_Y0,
         "monitor_top": monitor_top,
+        "speakers": (monitor_top, marquee_bottom),
         "marquee": (marquee_bottom, marquee_top),
+        "lift": lift,
     }
 
 
 # --- Parts -------------------------------------------------------------------
 def cut_list():
     door_w = (INNER_W - 3 * 0.0625) / 2
-    door_h = DOOR_TOP - (GLIDE + 0.0625)
+    door_h = STORAGE_TOP - (GLIDE + T) - 0.125
     return [
         # (part, qty, thickness, L, W, notes)
         ("Side panel", 2, '3/4" ply', 35.0, D, "pivot + lock holes, see drawing"),
-        ("Bottom", 1, '3/4" ply', INNER_W, PARTITION_Y - T, "front compartment floor"),
-        ("Partition", 1, '3/4" ply', INNER_W, PARTITION_TOP - (GLIDE + T), "structural back of compartment, 2\" cable grommet"),
-        ("Deck", 1, '3/4" ply', INNER_W, PARTITION_Y - T, f"top at z={DECK_TOP}, vent holes"),
-        ("Rear stretcher", 1, '3/4" ply', INNER_W, 3.5, "flat under the tower channel"),
-        ("Door", 2, '3/4" ply', round(door_h, 3), round(door_w, 3), "inset, 1/16\" gaps"),
-        ("Control box lid (buffet top)", 1, '3/4" ply', BOX_W, BOX_DEPTH, "show face; becomes panel underside"),
-        ("Control plate", 1, '1/2" ply', BOX_W - 1.0, BOX_DEPTH - 1.0, "+ optional 1/8\" acrylic overlay"),
-        ("Control box front/back", 2, '1/2" ply', BOX_W, BOX_H - T, "front is the 'drawer face'"),
-        ("Control box ends", 2, '1/2" ply', BOX_DEPTH - 1.0, BOX_H - T, "3/8\" pivot bushing in left/right"),
-        ("Tower side", 2, '1/2" ply', TOWER_L, TOWER_D, "1\" radius on short-end corners"),
+        ("Bottom", 1, '3/4" ply', INNER_W, D - T - SLOT_D, "storage floor; open under the tower slot"),
+        ("Back", 1, '3/4" ply', INNER_W, TOP_Z - GLIDE, "structural, 2\" cable grommet"),
+        ("Top / lid", 1, '3/4" ply', INNER_W, D - SLOT_D, "buffet top; piano-hinged at the back for storage access"),
+        ("Storage top", 1, '3/4" ply', INNER_W, D - SLOT_D - 2 * T, f"top at z={STORAGE_TOP}; nothing above this line"),
+        ("Storage door", 2, '3/4" ply', round(door_h, 3), round(door_w, 3), "inset; hidden when closed, kick panel when open"),
+        ("Control plate", 1, '1/2" ply', TOWER_W, PANEL_DEPTH, "+ optional 1/8\" acrylic overlay"),
+        ("Control box bottom", 1, '1/2" ply', TOWER_W - 1.0, PANEL_DEPTH - 0.5, "screw-on access panel"),
+        ("Control box front", 1, '1/2" ply', TOWER_W - 1.0, PANEL_H - 1.0, ""),
+        ("Control box cheek", 2, '1/2" ply', PANEL_DEPTH, PANEL_H + GUSSET_H, "ends: 4\" box + 3\" triangular gusset below, see drawing"),
+        ("Panel mounting rail", 1, '3/4" hardwood', TOWER_W - 2 * TOWER_WALL, 3.0, "inside tower behind the panel; panel bolts through to it"),
+        ("Tower side", 2, '1/2" ply', TOWER_L, TOWER_D, "1-1/2\" radius on short-end corners, 1/2\" on long end"),
         ("Tower end cap", 2, '1/2" ply', TOWER_W - 1.0, TOWER_D - 0.5, ""),
         ("Tower pivot doubler", 2, '3/4" hardwood', 6.0, TOWER_D - 0.5, "inside each tower side at the short end"),
-        ("Tower back", 1, '1/4" ply', TOWER_L, TOWER_W, "vent slots behind monitor"),
-        ("Tower bezel", 1, '1/4" black MDF/ply', TOWER_L, TOWER_W, "cutouts: speakers, screen, marquee"),
+        ("Tower back", 1, '1/4" ply', TOWER_L, TOWER_W, "buffet front face when closed; finish it nicely"),
+        ("Tower bezel", 1, '1/4" black MDF/ply', TOWER_L, TOWER_W, "cutouts: screen, speakers, marquee"),
         ("Marquee acrylic", 1, '1/8" acrylic', TOWER_W - 1.0, MARQUEE_H, "print or vinyl behind"),
-        ("Outrigger bar", 2, '3/4" hardwood', 12.0, 1.5, "slides 9\" forward in arcade mode"),
+        ("Outrigger bar", 2, '3/4" hardwood', 14.0, 1.5, "slides 10\" forward before flipping"),
     ]
 
 
@@ -198,117 +279,81 @@ class Svg:
                     f'<rect width="100%" height="100%" fill="#fff"/>\n{body}\n</svg>\n')
 
 
-def tower_parts_arcade(args, geo):
-    """Tower outline and front features in arcade orientation."""
-    tz0, tz1 = tower_arcade_z()
-    y0, y1 = TOWER_Y0, TOWER_Y0 + TOWER_D
-    shell = rect(y0, tz0, y1, tz1)
-    mon = rect(y0 + TOWER_BEZEL, MONITOR_BOTTOM, y0 + TOWER_BEZEL + args.monitor_d, geo["monitor_top"])
-    spk = rect(y0 + TOWER_BEZEL, SPEAKER_BAND[0], y0 + 2.0, SPEAKER_BAND[1])
-    mq0, mq1 = geo["marquee"]
-    mq = rect(y0, mq0, y0 + 1.0, mq1)
-    return shell, mon, spk, mq
-
-
-def box_parts_stored():
-    z0 = H - BOX_H
-    shell = rect(0, z0, BOX_DEPTH, H)
-    stick = [(4.0, z0), (4.0, z0 - STICK_ABOVE_PLATE + 0.6), (4.6, z0 - STICK_ABOVE_PLATE + 0.3),
-             (4.0, z0 - STICK_ABOVE_PLATE), (3.4, z0 - STICK_ABOVE_PLATE + 0.3), (4.0, z0 - STICK_ABOVE_PLATE + 0.6)]
-    return shell, stick
-
-
-def draw_carcass(s):
-    s.line((-12, 0), (60, 0), stroke="#888", width=2)
-    side = [(0, GLIDE), (D, GLIDE), (D, H), (0, H)]
-    s.poly(side, fill="#efe3cf", stroke="#b49a72", dash="6 3")
-    s.poly(rect(0, GLIDE + 0.0625, T, DOOR_TOP), fill="#c8a978")
-    s.poly(rect(T, GLIDE, PARTITION_Y, GLIDE + T))
-    s.poly(rect(PARTITION_Y, GLIDE, PARTITION_Y + T, PARTITION_TOP))
-    s.poly(rect(T, DECK_TOP - T, PARTITION_Y, DECK_TOP))
-    s.poly(rect(PARTITION_Y + T + 0.25, GLIDE, PARTITION_Y + T + 3.75, GLIDE + T))
+def draw_carcass(s, outrigger=False):
+    s.line((-40, 0), (60, 0), stroke="#888", width=2)
+    s.poly([(0, GLIDE), (D, GLIDE), (D, H), (0, H)], fill="#efe3cf", stroke="#b49a72", dash="6 3")
+    for name, r in fixed_parts().items():
+        s.poly(r, fill="#c8a978" if "door" in name else "#d9c3a0")
     for y in (1.0, D - 1.0):
         s.poly(rect(y - 0.4, 0, y + 0.4, GLIDE), fill="#555", stroke="#333")
-    s.text((4.5, 14), "storage /", 10, "middle")
-    s.text((4.5, 12.6), "PC + amp", 10, "middle")
+    s.text((9, 12), "storage", 10, "middle")
+    s.text((9, 10.6), "PC + amp", 10, "middle")
+    if outrigger:
+        s.poly(rect(-10.0, 0.1, 4.0, 0.85), fill="#8e6e3c", stroke="#4d3a1c")
 
 
-def draw_tower(s, args, geo, deg, ghost=False):
-    c = TOWER_PIVOT
-    shell, mon, spk, mq = tower_parts_arcade(args, geo)
-    k = 180 - deg  # parts are defined in arcade orientation; deg=0 is stored
-    r = lambda pts: [rot(p, c, -k) for p in pts]
-    op = 0.35 if ghost else 1.0
-    s.poly(r(shell), fill="#9fb7d4", stroke="#2c4a70", opacity=op)
+def draw_unit(s, args, geo, phi, ghost=False):
+    tz0, tz1 = tower_z()
+    y0 = TOWER_Y0
+    mq0, mq1 = geo["marquee"]
+    sp0, sp1 = geo["speakers"]
+    m = lambda pts: at_progress(pts, phi)
+    op = 0.3 if ghost else 1.0
+    box, cheek, stick = panel_parts()
+    s.poly(m(tower_shell()), fill="#9fb7d4", stroke="#2c4a70", opacity=op)
+    s.poly(m(cheek), fill="#e2b07a", stroke="#7a4a14", opacity=op)
+    s.poly(m(box), fill="#e2b07a", stroke="#7a4a14", opacity=op)
+    s.poly(m(stick), fill="#c0392b", stroke="#7b1d14", opacity=op)
     if not ghost:
-        s.poly(r(mon), fill="#222", stroke="#000")
-        s.poly(r(spk), fill="#6c6c6c", stroke="#333")
-        s.poly(r(mq), fill="#f1c40f", stroke="#a67c00")
-    s.dot(c)
-
-
-def draw_box(s, deg, ghost=False):
-    c = BOX_PIVOT
-    shell, stick = box_parts_stored()
-    r = lambda pts: [rot(p, c, deg) for p in pts]
-    op = 0.35 if ghost else 1.0
-    s.poly(r(shell), fill="#e2b07a", stroke="#7a4a14", opacity=op)
-    s.poly(r(stick), fill="#c0392b", stroke="#7b1d14", opacity=op)
-    s.dot(c, "#7a4a14")
+        s.poly(m(rect(y0 + TOWER_BEZEL, MONITOR_BOTTOM, y0 + TOWER_BEZEL + args.monitor_d, geo["monitor_top"])), fill="#222", stroke="#000")
+        s.poly(m(rect(y0 + TOWER_BEZEL, sp0 + 0.1, y0 + 2.0, sp1 - 0.1)), fill="#6c6c6c", stroke="#333")
+        s.poly(m(rect(y0, mq0, y0 + 1.0, mq1)), fill="#f1c40f", stroke="#a67c00")
+    s.dot(TOWER_PIVOT)
 
 
 def drawings(args, geo, outdir):
-    # Cabinet (buffet) mode
-    s = Svg(56, 40, -18, "Cabinet / buffet mode - side section (front at left, wall at right)")
+    s = Svg(56, 40, -24, "Cabinet / buffet mode - side section (front at left, wall at right)")
     draw_carcass(s)
-    draw_tower(s, args, geo, 0)
-    draw_box(s, 0)
-    s.text((18.5, 20), "tower hangs upside-down", 11)
-    s.text((18.5, 18.6), "in rear channel, screen", 11)
-    s.text((18.5, 17.2), "faces the wall", 11)
-    s.text((-1, 33.5), "control box =", 11, "end")
-    s.text((-1, 32.1), "'drawer' + table top", 11, "end")
-    s.text((-1, 16), "2 inset doors", 11, "end")
-    s.line((-8, H), (-8, 0), stroke="#2c3e50")
-    s.text((-8.5, H / 2), f'{H:.0f}"', 13, "end", "#2c3e50")
-    s.line((0, -1.6 + GLIDE), (D, -1.6 + GLIDE), stroke="#2c3e50")
-    s.text((D / 2, -2.9 + GLIDE), f'{D}" deep x {W:.0f}" wide', 12, "middle", "#2c3e50")
+    draw_unit(s, args, geo, 0)
+    s.text((-1, 20), "back of the tower =", 11, "end")
+    s.text((-1, 18.6), "buffet front face", 11, "end")
+    s.text((15, 30), "control panel rides", 11)
+    s.text((15, 28.6), "upside down inside,", 11)
+    s.text((15, 27.2), "sticks pointing down", 11)
+    s.text((15, 33.5), "top lid", 11)
+    s.line((-18, H), (-18, 0), stroke="#2c3e50")
+    s.text((-18.5, H / 2), f'{H:.0f}"', 13, "end", "#2c3e50")
+    s.line((0, -0.6), (D, -0.6), stroke="#2c3e50")
+    s.text((D / 2, -1.9), f'{D}" deep x {W:.0f}" wide', 12, "middle", "#2c3e50")
     s.save(os.path.join(outdir, "cabinet_mode.svg"))
 
-    # Arcade mode
     top = geo["arcade_height_topper"]
-    s = Svg(52, top + 4, -18, "Arcade mode - side section")
-    draw_carcass(s)
-    draw_tower(s, args, geo, 180)
-    draw_box(s, 180)
+    s = Svg(52, top + 4, -24, "Arcade mode - side section")
+    draw_carcass(s, outrigger=True)
+    draw_unit(s, args, geo, 180)
     tz1 = geo["arcade_height"]
     s.poly(rect(TOWER_Y0, tz1, TOWER_Y0 + TOWER_D, tz1 + TOPPER_H), fill="#f9e79f", stroke="#a67c00", dash="5 3")
-    s.text((TOWER_Y0 + TOWER_D + 1, tz1 + 2), f'optional topper -> {top:.0f}"', 11)
-    s.text((TOWER_Y0 + TOWER_D + 1, (MONITOR_BOTTOM + geo["monitor_top"]) / 2), "monitor", 11)
-    s.text((TOWER_Y0 + TOWER_D + 1, sum(geo["marquee"]) / 2), "marquee", 11)
-    s.text((TOWER_Y0 + TOWER_D + 1, sum(SPEAKER_BAND) / 2), "speakers", 11)
-    s.text((-geo["panel_overhang"], geo["panel_height"] + 1.2), f'control panel top {geo["panel_height"]:.1f}"', 11)
-    # folding brace
-    s.line((6.0, 30.0), (-3.0, 34.5), stroke="#16a085", width=3)
-    s.text((-4, 31), "folding brace", 10, "end", "#16a085")
-    # outrigger
-    s.poly(rect(-9.25, 0.1, 2.75, 0.85), fill="#8e6e3c", stroke="#4d3a1c")
-    s.text((-9.25, 1.6), "outrigger pulled out", 10, "start", "#4d3a1c")
-    s.line((-13, tz1), (-13, 0), stroke="#2c3e50")
-    s.text((-13.5, tz1 / 2), f'{tz1:.0f}"', 13, "end", "#2c3e50")
+    lx = TOWER_Y0 + TOWER_D + 1
+    s.text((lx, tz1 + 2), f'optional topper -> {top:.0f}"', 11)
+    s.text((lx, sum(geo["marquee"]) / 2), "marquee", 11)
+    s.text((lx, sum(geo["speakers"]) / 2), "speakers", 11)
+    s.text((lx, (MONITOR_BOTTOM + geo["monitor_top"]) / 2), "monitor", 11)
+    s.text((-PANEL_DEPTH - 1, PANEL_TOP + 1.5), f'control panel {PANEL_TOP:.0f}"', 11, "end")
+    s.text((-PANEL_DEPTH - 1, PANEL_TOP), "(fixed to tower)", 11, "end")
+    s.text((-10, 1.6), "outrigger pulled out", 10, "start", "#4d3a1c")
+    s.line((-18, tz1), (-18, 0), stroke="#2c3e50")
+    s.text((-18.5, tz1 / 2), f'{tz1:.0f}"', 13, "end", "#2c3e50")
     s.save(os.path.join(outdir, "arcade_mode.svg"))
 
-    # Flip sequence (tower swing envelope)
-    reach = geo["r_tower_long"] + TOWER_PIVOT[0]
-    s = Svg(reach + 18, geo["arcade_height"] + 6, -12, "Flip sequence - tower swings out the BACK, needs wall clearance")
-    draw_carcass(s)
-    draw_box(s, 0)
-    for deg in (0, 45, 90, 135):
-        draw_tower(s, args, geo, deg, ghost=True)
-    draw_tower(s, args, geo, 180)
-    s.arc(TOWER_PIVOT, geo["r_tower_long"], -90, 90)
-    s.line((D, 3), (reach, 3), stroke="#c0392b", width=1.5)
-    s.text(((D + reach) / 2, 4), f'keep ~{math.ceil(geo["wall_clearance"])}" clear behind cabinet while flipping', 12, "middle", "#c0392b")
+    r = math.hypot(TOWER_D / 2, TOWER_L - TOWER_PIVOT_FROM_END)
+    s = Svg(60, geo["sweep_top"] + 6, -44, "Flip sequence - screen + panel swing up out the FRONT (wall side stays put)")
+    draw_carcass(s, outrigger=True)
+    for phi in (0, 45, 90, 135):
+        draw_unit(s, args, geo, phi, ghost=True)
+    draw_unit(s, args, geo, 180)
+    s.arc(TOWER_PIVOT, r, 90, 270)
+    s.line((0, 3), (-geo["front_clearance"], 3), stroke="#c0392b", width=1.5)
+    s.text((-geo["front_clearance"] / 2, 4), f'keep ~{math.ceil(geo["front_clearance"])}" clear in front while flipping', 12, "middle", "#c0392b")
     s.save(os.path.join(outdir, "flip_sequence.svg"))
 
 
@@ -326,10 +371,12 @@ def main():
     print(f"Closed (buffet):  {W:.0f}\" W x {D}\" D x {H:.0f}\" H")
     print(f"Arcade:           {W:.0f}\" W x {D}\" D (+{geo['panel_overhang']:.1f}\" control panel) x "
           f"{geo['arcade_height']:.0f}\" H ({geo['arcade_height_topper']:.0f}\" with topper)")
-    print(f"Control panel top: {geo['panel_height']:.1f}\" from floor")
-    print(f"Wall clearance needed while flipping: ~{math.ceil(geo['wall_clearance'])}\"")
+    print(f"Control panel top: {PANEL_TOP:.1f}\" from floor")
+    print(f"Clearance needed in front while flipping: ~{math.ceil(geo['front_clearance'])}\" "
+          f"(nothing behind - it can stay against the wall)")
+    print(f"Lift force at the end of the tower when horizontal: ~{geo['lift']:.0f} lb")
     print()
-    print("== Clearance checks ==")
+    print("== Clearance checks (whole flip sampled every 1 deg) ==")
     ok = True
     for name, passed, detail in geo["checks"]:
         ok &= passed
