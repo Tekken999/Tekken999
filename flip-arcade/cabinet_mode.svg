@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="584" height="470" viewBox="0 0 584 470" font-family="Helvetica, Arial, sans-serif">
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="40" y="24" font-size="16" font-weight="bold">Cabinet / buffet mode - side section (front at left, wall at right)</text>
+<line x1="94.0" y1="430.0" x2="742.0" y2="430.0" stroke="#888" stroke-width="2"/>
+<polygon points="202.0,421.0 323.5,421.0 323.5,106.0 202.0,106.0" fill="#efe3cf" fill-opacity="1.0" stroke="#b49a72" stroke-width="1.2" stroke-dasharray="6 3"/>
+<polygon points="202.0,420.4 208.8,420.4 208.8,148.8 202.0,148.8" fill="#c8a978" fill-opacity="1.0" stroke="#5a4020" stroke-width="1.2"/>
+<polygon points="208.8,421.0 280.8,421.0 280.8,414.2 208.8,414.2" fill="#d9c3a0" fill-opacity="1.0" stroke="#5a4020" stroke-width="1.2"/>
+<polygon points="280.8,421.0 287.5,421.0 287.5,173.5 280.8,173.5" fill="#d9c3a0" fill-opacity="1.0" stroke="#5a4020" stroke-width="1.2"/>
+<polygon points="208.8,180.2 280.8,180.2 280.8,173.5 208.8,173.5" fill="#d9c3a0" fill-opacity="1.0" stroke="#5a4020" stroke-width="1.2"/>
+<polygon points="289.8,421.0 321.2,421.0 321.2,414.2 289.8,414.2" fill="#d9c3a0" fill-opacity="1.0" stroke="#5a4020" stroke-width="1.2"/>
+<polygon points="207.4,430.0 214.6,430.0 214.6,421.0 207.4,421.0" fill="#555" fill-opacity="1.0" stroke="#333" stroke-width="1.2"/>
+<polygon points="310.9,430.0 318.1,430.0 318.1,421.0 310.9,421.0" fill="#555" fill-opacity="1.0" stroke="#333" stroke-width="1.2"/>
+<text x="242.5" y="304.0" font-size="10" text-anchor="middle" fill="#222">storage /</text>
+<text x="242.5" y="316.6" font-size="10" text-anchor="middle" fill="#222">PC + amp</text>
+<polygon points="322.4,106.0 288.6,106.0 288.6,412.0 322.4,412.0" fill="#9fb7d4" fill-opacity="1.0" stroke="#2c4a70" stroke-width="1.2"/>
+<polygon points="320.1,196.0 300.3,196.0 300.3,324.7 320.1,324.7" fill="#222" fill-opacity="1.0" stroke="#000" stroke-width="1.2"/>
+<polygon points="320.1,151.0 304.4,151.0 304.4,191.5 320.1,191.5" fill="#6c6c6c" fill-opacity="1.0" stroke="#333" stroke-width="1.2"/>
+<polygon points="322.4,349.0 313.4,349.0 313.4,403.0 322.4,403.0" fill="#f1c40f" fill-opacity="1.0" stroke="#a67c00" stroke-width="1.2"/>
+<circle cx="305.5" cy="128.5" r="3.5" fill="#c0392b"/>
+<polygon points="202.0,146.5 274.0,146.5 274.0,106.0 202.0,106.0" fill="#e2b07a" fill-opacity="1.0" stroke="#7a4a14" stroke-width="1.2"/>
+<polygon points="238.0,146.5 238.0,163.6 243.4,166.3 238.0,169.0 232.6,166.3 238.0,163.6" fill="#c0392b" fill-opacity="1.0" stroke="#7b1d14" stroke-width="1.2"/>
+<circle cx="208.8" cy="112.8" r="3.5" fill="#7a4a14"/>
+<text x="368.5" y="250.0" font-size="11" text-anchor="start" fill="#222">tower hangs upside-down</text>
+<text x="368.5" y="262.6" font-size="11" text-anchor="start" fill="#222">in rear channel, screen</text>
+<text x="368.5" y="275.2" font-size="11" text-anchor="start" fill="#222">faces the wall</text>
+<text x="193.0" y="128.5" font-size="11" text-anchor="end" fill="#222">control box =</text>
+<text x="193.0" y="141.1" font-size="11" text-anchor="end" fill="#222">'drawer' + table top</text>
+<text x="193.0" y="286.0" font-size="11" text-anchor="end" fill="#222">2 inset doors</text>
+<line x1="130.0" y1="106.0" x2="130.0" y2="430.0" stroke="#2c3e50" stroke-width="1"/>
+<text x="125.5" y="268.0" font-size="13" text-anchor="end" fill="#2c3e50">36"</text>
+<line x1="202.0" y1="435.4" x2="323.5" y2="435.4" stroke="#2c3e50" stroke-width="1"/>
+<text x="262.8" y="447.1" font-size="12" text-anchor="middle" fill="#2c3e50">13.5" deep x 29" wide</text>
+</svg>
